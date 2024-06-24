@@ -63,8 +63,42 @@ const deletePost = async (req, res) => {
     }
 }
 
+const updatePost = async (req, res) => {
+
+    try {
+
+        if(req.file !== undefined){
+            const id = req.body.id;
+            const title = req.body.title;
+            const date = req.body.date;
+            const filename = req.file.filename;
+
+            await Post.findByIdAndUpdate({_id:id},{$set:{title:title,date:date,image:filename}});
+            res.status(200).send({success:true,msg:'Post Update Successfull !'})
+
+        }else{
+            const id = req.body.id;
+            const title = req.body.title;
+            const date = req.body.date;
+
+
+            await Post.findByIdAndUpdate({_id:id},{$set:{title:title,date:date}});
+            res.status(200).send({success:true,msg:'Post Update Successfull !'})
+        }
+
+    } catch (error) {
+        res.status(400).send({
+            success: false,
+            msg: error.message
+        });
+    }
+
+}
+
+
 module.exports = {
     createPost,
     getPosts,
     deletePost,
+    updatePost
 }

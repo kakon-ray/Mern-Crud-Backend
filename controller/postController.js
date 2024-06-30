@@ -96,9 +96,28 @@ const updatePost = async (req, res) => {
 }
 
 
+const getPost = async (req, res) => {
+    try {
+        const postget = await Post.findOne({ _id: req.params.id });
+        res.status(200).send({
+            success: true,
+            msg: 'Update Data',
+            data:postget
+        });
+
+    } catch (error) {
+        res.status(400).send({
+            success: false,
+            msg: error.message
+        });
+    }
+}
+
+
 module.exports = {
     createPost,
     getPosts,
     deletePost,
-    updatePost
+    updatePost,
+    getPost
 }
